@@ -2,9 +2,9 @@
   "name": "1_WHAT-IS-NODE",
   "version": "1.0.0",
   "description": "使用NodeJS来搭建一个Web服务器",
-  "main": "index.js",
+  "main": "bin/www.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon bin/www.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/webcat369/1_WHAT-IS-NODE/issues"
   },
-  "homepage": "https://github.com/webcat369/1_WHAT-IS-NODE#readme"
+  "homepage": "https://github.com/webcat369/1_WHAT-IS-NODE#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }

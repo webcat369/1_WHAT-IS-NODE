@@ -23,4 +23,10 @@
   5.搭建开发环境(小的博客文件)
   * 初始化package.json文件 npm init -y
   * 创建bin文件，在其中创建www.js文件，为项目启动会执行的文件
+  * 创建app.js文件作为服务器业务代码的文件(例如：响应的格式，获取cookie，获取get/post，解析get/post等)，引入到www.js文中
+  * 创建好node服务器后，在package.json文件中修改配置:
+  * 1.修改main:'bin/www.js'项目启动首次要执行的文件
+  * 2.安装nodemon插件，npm install nodemon --D 可以自动的在服务端代码改变时重新执行最新的服务端代码
+  * 3.修改执行命令下的启动项目的首次执行文件
+  * 终端中输入：npm run dev
 */
