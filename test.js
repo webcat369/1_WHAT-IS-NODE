@@ -20,7 +20,7 @@
   4.Node服务器处理HPPT请求的开发思路？
   * index.js文件记录如何处理HTTP请求的思路
 
-  5.搭建开发环境(小的博客文件)
+  5.搭建开发环境(小的博客项目)
   * 初始化package.json文件 npm init -y
   * 创建bin文件，在其中创建www.js文件，为项目启动会执行的文件
   * 创建app.js文件作为服务器业务代码的文件(例如：响应的格式，获取cookie，获取get/post，解析get/post等)，引入到www.js文中
@@ -29,4 +29,11 @@
   * 2.安装nodemon插件，npm install nodemon --D 可以自动的在服务端代码改变时重新执行最新的服务端代码
   * 3.修改执行命令下的启动项目的首次执行文件
   * 终端中输入：npm run dev
+  
+  6.初始化路由(开发接口)
+  新建src目录下的routes/blog.js文件定义博客相关的路由
+
+  7.开发第一个路由(博客相关的路由)
+  * 使路由接口返回的数据更加规范-> 新建model目录下的responseModel.js文件，定义请求成功和失败返回的数据格式
+  * 获取url参数(?auther=xxx&keyword=xx)中关键字对应的列表数据(方法)-> 新建controllers目录下的blog.js,定义跟博客相关的方法
 */
