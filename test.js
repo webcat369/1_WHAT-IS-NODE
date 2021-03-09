@@ -19,4 +19,8 @@
   
   4.Node服务器处理HPPT请求的开发思路？
   * index.js文件记录如何处理HTTP请求的思路
+
+  5.搭建开发环境(小的博客文件)
+  * 初始化package.json文件 npm init -y
+  * 创建bin文件，在其中创建www.js文件，为项目启动会执行的文件
 */
