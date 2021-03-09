@@ -1,5 +1,5 @@
 const { SuccessModel } = require('../model/responseModel')
-const { getList } = require('../controllers/blog')
+const { getList,getDetail } = require('../controllers/blog')
 
 //处理博客相关的路由处理
 const handleBlogRoute = (req,res) => {
@@ -14,6 +14,7 @@ const handleBlogRoute = (req,res) => {
     //new SuccessModel()
     const auther = req.query.auther || ''
     const keyword = req.query.keyword || ''
+
     //通过getList方法拿到auther和keyword关键字对应的列表数据
     const listData = getList(auther,keyword)
     return new SuccessModel(listData)
@@ -24,9 +25,12 @@ const handleBlogRoute = (req,res) => {
   }
 
   if(method === 'GET' && req.path === '/api/blog/detail'){
-    return{
-      message:'获取博客详情的接口'
-    }
+    const id = req.query.id
+    const detailData = getDetail(id)
+    return new SuccessModel(detailData)
+    // return{
+    //   message:'获取博客详情的接口'
+    // }
   }
 
   if(method === 'POST' && req.path === '/api/blog/new'){
