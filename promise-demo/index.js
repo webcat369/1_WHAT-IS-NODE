@@ -5,6 +5,7 @@ const fs = require('fs')
 //node的核心模块path
 const path = require('path')
 
+
 //读取文件内容
 function getFileContent(filename,callback){//文件名，回调函数
 //1.数据文件的绝对路径(拿到index.js所在的promise-demo的目录)

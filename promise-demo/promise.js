@@ -5,6 +5,7 @@ const fs = require('fs')
 //node的核心模块path
 const path = require('path')
 
+
 //promise 实现
 function getFileContent(filename) {//文件名称
   const promise = new Promise((resolve, reject) => {
