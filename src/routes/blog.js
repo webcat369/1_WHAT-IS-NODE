@@ -1,5 +1,10 @@
-const { SuccessModel } = require('../model/responseModel')
-const { getList,getDetail } = require('../controllers/blog')
+const { SuccessModel, ErrorModel } = require('../model/responseModel')
+const { 
+  getList,
+  getDetail,
+  createNewBlog,
+  updateBlog,
+  deleteBlog } = require('../controllers/blog')
 
 //处理博客相关的路由处理
 const handleBlogRoute = (req,res) => {
@@ -8,6 +13,11 @@ const handleBlogRoute = (req,res) => {
   //优化下面获取路径的代码
   // const url = req.url
   // const path = url.split('?')[0]
+
+  //获取更新博客的id
+  const id = req.query.id
+  //新增博客的内容
+  const blogData = req.body
 
   if(method === 'GET' && req.path === '/api/blog/list'){
     ///api/blog/list?auther=zhangsan&keyword=123
@@ -23,9 +33,9 @@ const handleBlogRoute = (req,res) => {
     //   message:'获取博客列表相关数据'
     // }
   }
-
+  
+  //博客详情路由
   if(method === 'GET' && req.path === '/api/blog/detail'){
-    const id = req.query.id
     const detailData = getDetail(id)
     return new SuccessModel(detailData)
     // return{
@@ -33,22 +43,44 @@ const handleBlogRoute = (req,res) => {
     // }
   }
 
+  //新建博客路由
   if(method === 'POST' && req.path === '/api/blog/new'){
-    return{
-      message:'新建博客的接口'
-    }
+    const newBlogData = createNewBlog(blogData)
+    return new SuccessModel(newBlogData)
+    // return{
+    //   message:'新建博客的接口'
+    // }
   }
 
+  //更新博客路由
   if(method === 'POST' && req.path === '/api/blog/update'){
-    return{
-      message:'更新博客的接口'
+    // console.log(req.body) //{ title: '标题', age: 21, content: '1' }
+
+    //1.更新哪篇博客 2.更新博客的什么内容
+    const updateBlogData = updateBlog(id,blogData)
+
+    if(updateBlogData){
+      return new SuccessModel('更新博客成功！')
+    }else{
+      return new ErrorModel('更新博客失败...')
     }
+    // return{
+    //   message:'更新博客的接口'
+    // }
   }
 
+  //删除博客路由
   if(method === 'POST' && req.path === '/api/blog/delete'){
-    return{
-      message:'删除博客的接口'
+    const deleteBlogData = deleteBlog(id)
+
+    if(deleteBlogData){
+      return new SuccessModel('删除博客成功！')
+    }else{
+      return new ErrorModel('删除博客失败...')
     }
+    // return{
+    //   message:'删除博客的接口'
+    // }
   }
 
 }

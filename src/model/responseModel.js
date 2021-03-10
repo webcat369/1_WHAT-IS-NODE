@@ -4,7 +4,7 @@ class BaseModel {
     if(typeof data === 'string'){
       this.message = data
       data = null
-      messgae = null
+      message = null
     }
     //当传递的数据是对象格式时会直接赋值
     if(data){

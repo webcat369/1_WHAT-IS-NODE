@@ -40,4 +40,70 @@
   8.处理异步代码
   * promise-demo目录下的index.js文件，用传统的方式演示了异步读取文件数据；promise.js文件用promise来优化了异步请求造成的回调地狱的问题；
   * 处理post请求时，发送给服务器的数据是异步的过程，所以会用到promise来获取post请求发送来的数据，也方便后期维护
+  
+  9.处理POST数据
+  * 在app.js中定义getPostData方法利用promise处理post请求发送的异步数据
+  * 并在处理博客相关路由之前调用getPostData方法，但由于处理post请求数据是异步的，在getPostData方法还没有执行完毕时后面的代码就会执行
+  * 所以将处理博客相关的路由的方法和未匹配到人任何路由就报404的方法放入.then()的postData回调函数中执行
+  
+  10.新建、更新、删除博客
+  * 定义createNewBlog，updateBlog，deleteBlog方法分别进行创建新的博客、更新博客和删除博客操作
+
+  @安装MySQL教程:https://www.cnblogs.com/winton-nfs/p/11524007.html#_caption_0
+  开启服务：net start mysql
+　关闭服务：net stop mysql
+  登录mysql：mysql -u root -p
+　Enter PassWord：(密码)-> root
+
+  11.使用MySQL增，查
+    -- 要使用哪个数据库
+    -- use myblog;
+
+    -- 展示要显示的数据表
+    -- show tables;
+
+    -- 向blogs表中插入一条数据（新增）
+    -- insert into blogs (title, content, auther, createdAt) values ('标题4', '内容4', 'lisi', 12345670666);
+
+    -- 查看全表
+    -- select * from blogs;
+
+    -- 查看表中的某几列数据
+    -- select id, auther from blogs;
+
+    -- 查看符合某个条件的数据
+    -- select * from blogs where title='标题1';
+
+    -- 查看符合多个条件的数据
+    -- select * from blogs where title='标题1' and auther='zhangsan';
+    -- select * from blogs where title='标题1' or auther='zhangsan';
+
+    -- 模糊查询（查出包含符合条件的所有数据）
+    -- select * from blogs where auther like '%zhang%';
+
+    -- 将查出来的数据按id排序（默认顺序）
+    -- select * from blogs where auther like '%zhang%' order by id;
+    -- 倒序
+    -- select * from blogs where auther like '%zhang%' order by id desc;
+
+  12.使用MySQL改，删
+    -- 根据条件修改数据
+    -- update blogs set title='标题3' where content='内容1';
+    -- 将安全模式关闭
+    -- SET SQL_SAFE_UPDATES = 0;
+
+    -- 删除符合条件的数据
+    -- delete from blogs where title='标题4';
+
+    -- 软删除：在表中新增state字段（INT）定义默认值为1，当state为0时，这条数据不可用，不会显示。
+    -- 查看表blogs中所有state字段为1的数据
+    -- select * from blogs where state='1'; 
+    -- 将要删除的数据state字段改为0，该数据不可用就不会显示
+    -- update blogs set state='0' where auther='zhangsan';
+    -- 再次查看
+    -- select * from blogs where state='1';
+    -- 不等于0 <>0
+    -- select * from blogs where state<>0;
+  
+  13.node.js连接MySQL
 */
