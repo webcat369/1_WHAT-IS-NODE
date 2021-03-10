@@ -106,4 +106,8 @@
     -- select * from blogs where state<>0;
   
   13.node.js连接MySQL
+  * 新建mysql-demo目录做连接演示
+  * 在mysql-demo目录内新建index.js文件，并进入mysql-demo目录终端初始化Demo：npm init -y 生成package.json文件
+  * 并安装mysql:npm install mysql
+  * 接着在index.js文件中执行下面五个步骤：->引入mysql->创建连接对象->开始连接->执行 sql语句->关闭连接；
 */
