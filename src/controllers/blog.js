@@ -1,25 +1,41 @@
 //博客相关的方法
 
+//引入处理sql语句的文件
+const { execSQL } = require('../db/mysql')
+
 //获取博客列表的数据
-const getList = (auther,keyword) => { //假装用auther,keyword参数请求数据库，拿到了数据
+const getList = (auther, keyword) => { //假装用auther,keyword参数请求数据库，拿到了数据
+  let sql = `select * from blogs where 1=1 `;
+
+  if(auther){
+    sql += `and auther='${auther}' `
+  }
+
+  if(keyword){
+    sql += `and title like '%${keyword}%'`
+  }
+
+  console.log('sql:',sql)
+  return execSQL(sql)
+
   //应该从数据库中拿数据
   //条件有限，所以先返回假数据
-  return [
-    {
-      id:1,
-      title:'标题1',
-      content:'内容1',
-      auther:'zhangsan',
-      createdAt:1615281910981
-    },
-    {
-      id:2,
-      title:'标题2',
-      content:'内容2',
-      auther:'lisi',
-      createdAt:1615281950393
-    }
-  ]
+  // return [
+  //   {
+  //     id: 1,
+  //     title: '标题1',
+  //     content: '内容1',
+  //     auther: 'zhangsan',
+  //     createdAt: 1615281910981
+  //   },
+  //   {
+  //     id: 2,
+  //     title: '标题2',
+  //     content: '内容2',
+  //     auther: 'lisi',
+  //     createdAt: 1615281950393
+  //   }
+  // ]
 
 }
 
@@ -28,12 +44,12 @@ const getDetail = (id) => {
   //先返回假数据
   return [
     {
-      id:1,
-      title:'标题1',
-      content:'内容1',
-      auther:'zhangsan',
-      createdAt:1615281910981,
-      detail:'详情咨询'
+      id: 1,
+      title: '标题1',
+      content: '内容1',
+      auther: 'zhangsan',
+      createdAt: 1615281910981,
+      detail: '详情咨询'
     }
   ]
 }
@@ -42,7 +58,7 @@ const getDetail = (id) => {
 const createNewBlog = (blogData = {}) => {
   //假设将blogData中的title和content保存到数据库中，并返回保存这条数据的id
   //假设拿到返回的id
-  console.log('blogData:',blogData)
+  console.log('blogData:', blogData)
   return {
     id: 1
   }
@@ -50,9 +66,9 @@ const createNewBlog = (blogData = {}) => {
 }
 
 //更新博客
-const updateBlog = (id,blogData = {}) => {
-  console.log('id:',id)
-  console.log('blogData:',blogData)
+const updateBlog = (id, blogData = {}) => {
+  console.log('id:', id)
+  console.log('blogData:', blogData)
 
   //假设，更新成功返回布尔值
   return true
@@ -60,7 +76,7 @@ const updateBlog = (id,blogData = {}) => {
 
 //删除博客
 const deleteBlog = (id) => {
-  console.log('id:',id)
+  console.log('id:', id)
 
   //假设删除数据库中数据成功，返回true
   return true

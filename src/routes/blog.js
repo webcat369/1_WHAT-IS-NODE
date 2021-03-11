@@ -6,8 +6,8 @@ const {
   updateBlog,
   deleteBlog } = require('../controllers/blog')
 
-//引入处理sql语句的文件
-const { execSQL } = require('../db/mysql')
+// //引入处理sql语句的文件
+// const { execSQL } = require('../db/mysql')
 
 //处理博客相关的路由处理
 const handleBlogRoute = (req,res) => {
@@ -24,7 +24,7 @@ const handleBlogRoute = (req,res) => {
 
   //新增博客列表路由
   if(method === 'GET' && req.path === '/api/blog/list'){
-    const sql = `select * from blogs;`
+    // const sql = `select * from blogs;`
     // execSQL(sql,(err,result) => {
     //   if(err){
     //     console.log('err:',err)
@@ -35,9 +35,9 @@ const handleBlogRoute = (req,res) => {
     // })
 
     //利用promise形式优化execSQL方法
-    execSQL(sql).then(result => {
-      console.log('result:',result)
-    })
+    // execSQL(sql).then(result => {
+    //   console.log('result:',result)
+    // })
 
 
     ///api/blog/list?auther=zhangsan&keyword=123
@@ -46,8 +46,12 @@ const handleBlogRoute = (req,res) => {
     const keyword = req.query.keyword || ''
 
     //通过getList方法拿到auther和keyword关键字对应的列表数据
-    const listData = getList(auther,keyword)
-    return new SuccessModel(listData)
+    const listDataPrmise = getList(auther,keyword)
+    
+    return listDataPrmise.then(listData => {
+      // console.log('listData',listData)
+      return new SuccessModel(listData)
+    })
 
     // return {
     //   message:'获取博客列表相关数据'

@@ -116,4 +116,12 @@
   * 在博客项目目录下安装MySQL：npm install mysql
   * 在mysql.js文件中执行下面五个步骤：->引入mysql->创建连接对象->开始连接->封装执行 sql语句的方法->导出处理sql语句的方法；
   * 利用promise优化封装的处理sql语句的execSQL方法，避免如果需要拿到execSQL回调函数中的结果result去做更多的事情，就可能出现回调地狱，不利于代码读取和后期维护
+  
+  15.获取博客类表接口 对接MySQL
+  * 改造：将routes目录下blog.js文件中引入的execSQL方法移入到controllers目录下blog.js文件中，因为这个文件才是返回数据的地方
+  * 在controllers目录下blog.js文件的 对应获取博客数据方法中 定义sql语句，并调用execSQL方法执行sql语句，并 return execSQL方法，返回promise对象
+  * 在routes目录下的blogs.js文件中的新增博客列表路由中 获取到返回的promise对象(listDataPrmise)，并在listDataPrmise的.then()方法中获取到新增博客列表的数据（listData）
+  * 将return new SuccessModel(listData)放入到listDataPrmise.then()中执行，会返回SuccessModel对象，我们最终使用到这个对象的地方是handleBlogRoute（也就是处理博客相关的路由方法）使用的地方
+  * 也就是app.js文件中，所以想要在app.js文件中获取到return new SuccessModel(listData)返回的对象，就需要return listDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
+  * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
 */
