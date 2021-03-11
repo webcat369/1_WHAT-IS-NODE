@@ -60,20 +60,39 @@ const handleBlogRoute = (req,res) => {
   
   //博客详情路由
   if(method === 'GET' && req.path === '/api/blog/detail'){
-    const detailData = getDetail(id)
-    return new SuccessModel(detailData)
+    //改造前
+    // const detailData = getDetail(id)
+    // return new SuccessModel(detailData)
     // return{
     //   message:'获取博客详情的接口'
     // }
+
+    //改造后
+    const detailDataPromise = getDetail(id)
+    return detailDataPromise.then(detailData => {
+      // console.log('detailData',detailData)
+      return new SuccessModel(detailData)
+    })
+
   }
 
   //新建博客路由
   if(method === 'POST' && req.path === '/api/blog/new'){
-    const newBlogData = createNewBlog(blogData)
-    return new SuccessModel(newBlogData)
+    // const newBlogData = createNewBlog(blogData)
+    // return new SuccessModel(newBlogData)
     // return{
     //   message:'新建博客的接口'
     // }
+
+    //改造后
+    //新增博客用户可以编写title、content，但是author是登录的用户的名字，因为我们现在没有登录，就先编写假数据
+    const author = 'zhangsan'
+    req.body.author = author 
+    const newBlogDataPromise = createNewBlog(blogData)
+    return newBlogDataPromise.then(newBlogData => {
+      // console.log('newBlogData',newBlogData)
+      return new SuccessModel(newBlogData)
+    })
   }
 
   //更新博客路由
@@ -81,13 +100,17 @@ const handleBlogRoute = (req,res) => {
     // console.log(req.body) //{ title: '标题', age: 21, content: '1' }
 
     //1.更新哪篇博客 2.更新博客的什么内容
-    const updateBlogData = updateBlog(id,blogData)
+    const updateBlogDataPromise = updateBlog(id,blogData)
 
-    if(updateBlogData){
-      return new SuccessModel('更新博客成功！')
-    }else{
-      return new ErrorModel('更新博客失败...')
-    }
+    return updateBlogDataPromise.then(updateBlogData => {
+      // console.log('updateBlogData',updateBlogData) 更新成功返回true
+      if(updateBlogData){
+        return new SuccessModel('更新博客成功！')
+      }else{
+        return new ErrorModel('更新博客失败...')
+      }
+    })
+   
     // return{
     //   message:'更新博客的接口'
     // }
@@ -95,13 +118,18 @@ const handleBlogRoute = (req,res) => {
 
   //删除博客路由
   if(method === 'POST' && req.path === '/api/blog/delete'){
-    const deleteBlogData = deleteBlog(id)
+    //假设获取到登录的用户名称
+    const author = 'zhangsan'
+    const deleteBlogDataPromise = deleteBlog(id,author)
 
-    if(deleteBlogData){
-      return new SuccessModel('删除博客成功！')
-    }else{
-      return new ErrorModel('删除博客失败...')
-    }
+    return deleteBlogDataPromise.then(deleteBlogData => {
+      if(deleteBlogData){
+        return new SuccessModel('删除博客成功！')
+      }else{
+        return new ErrorModel('删除博客失败...')
+      }
+    })
+    
     // return{
     //   message:'删除博客的接口'
     // }

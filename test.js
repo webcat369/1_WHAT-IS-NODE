@@ -117,11 +117,43 @@
   * 在mysql.js文件中执行下面五个步骤：->引入mysql->创建连接对象->开始连接->封装执行 sql语句的方法->导出处理sql语句的方法；
   * 利用promise优化封装的处理sql语句的execSQL方法，避免如果需要拿到execSQL回调函数中的结果result去做更多的事情，就可能出现回调地狱，不利于代码读取和后期维护
   
-  15.获取博客类表接口 对接MySQL
+  15.获取博客列表接口 对接MySQL
   * 改造：将routes目录下blog.js文件中引入的execSQL方法移入到controllers目录下blog.js文件中，因为这个文件才是返回数据的地方
-  * 在controllers目录下blog.js文件的 对应获取博客数据方法中 定义sql语句，并调用execSQL方法执行sql语句，并 return execSQL方法，返回promise对象
-  * 在routes目录下的blogs.js文件中的新增博客列表路由中 获取到返回的promise对象(listDataPrmise)，并在listDataPrmise的.then()方法中获取到新增博客列表的数据（listData）
-  * 将return new SuccessModel(listData)放入到listDataPrmise.then()中执行，会返回SuccessModel对象，我们最终使用到这个对象的地方是handleBlogRoute（也就是处理博客相关的路由方法）使用的地方
+  * 在controllers目录下blog.js文件的 对应获取博客列表数据方法中 定义sql语句，并调用execSQL方法执行sql语句，并 return execSQL方法，返回promise对象
+  * 在routes目录下的blogs.js文件中的 博客列表路由中 获取到返回的promise对象(listDataPrmise)，并在listDataPrmise的.then()方法中获取到 符合传入参数的 博客列表数据的数组（listData）
+  * 将return new SuccessModel(listData)放入到listDataPrmise.then()中执行，会返回SuccessModel对象，我们最终使用到这个对象的地方，也就是handleBlogRoute方法（处理博客相关的路由方法）使用的地方
   * 也就是app.js文件中，所以想要在app.js文件中获取到return new SuccessModel(listData)返回的对象，就需要return listDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
+  * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
+  
+  16.博客详情、创建新的博客接口 对接MySQL
+  * 博客详情对接 对接MySQL：
+  * 在controllers目录下blog.js文件的 对应获取博客详情数据方法中 定义sql语句，并调用execSQL方法执行sql语句，并return execSQL(sql).then(rows)，通过rows(符合传入id的数组)拿到并return rows[0](也就是返回符合 传入id的数组的第一项)
+  * 在routes目录下的blogs.js文件中的 博客详情路由中 获取到返回的promise对象(detailDataPromise)，detailDataPromise.then()方法中获取到 符合传入id的 博客详情数据对象（detailData）
+  * 将return new SuccessModel(detailData)放入到detailDataPromise.then()中执行，会返回SuccessModel对象，去到最终使用到这个对象的地方，也就是handleBlogRoute方法（处理博客相关的路由方法）使用的地方
+  * 也就是app.js文件中，所以想要在app.js文件中获取到return new SuccessModel(detailData)返回的对象，就需要return detailDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
+  * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
+  * 
+  * 创建新的博客接口 对接MySQL：
+  * 在controllers目录下blog.js文件的 对应创建新的博客数据方法中 创建新增的变量参数title、content、auther、createdAt，然后定义sql语句，并调用execSQL方法执行sql语句，并return execSQL(sql).then(insertedResult)，拿到insertedResult对象返回的在数据库中新增数据id(insertId)
+  * 在routes目录下的blogs.js文件中的 创建新的博客路由中 获取到返回的promise对象(newBlogDataPromise),newBlogDataPromise.then()方法中获取到 新增博客返回的id对象(newBlogData)
+  * 将return new SuccessModel(newBlogData)放入到newBlogDataPromise.then()中执行，会返回SuccessModel对象，去到最终使用到这个对象的地方，也就是handleBlogRoute方法（处理博客相关的路由方法）使用的地方
+  * 也就是app.js文件中，所以想要在app.js文件中获取到return new SuccessModel(newBlogData)返回的对象，就需要return newBlogDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
+  * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
+  
+  17.更新博客 和 删除博客 对接MySQL
+  * 更新博客 对接MySQL：
+  * 传入要修改的博客id,修改title和content
+  * 在controllers目录下blog.js文件的 对应更新博客数据方法中 创建新增的变量参数title、content，然后定义sql语句，并调用execSQL方法执行sql语句，并return execSQL(sql).then(updateResult)，拿到updateResult对象返回的在数据库中更新的行数(affectedRows)，更新成功则大于0，在进行判断大于0返回true，否则false
+  * 在routes目录下的blogs.js文件中的 更新博客路由中 获取到返回的promise对象(updateBlogDataPromise),updateBlogDataPromise.then()方法中获取到 博客更新后返回的布尔值(updateBlogData)
+  * 将判断updateBlogData是否更新成功的逻辑放入到updateBlogDataPromise.then()中执行，会返回SuccessModel对象，去到最终使用到这个对象的地方，也就是handleBlogRoute方法（处理博客相关的路由方法）使用的地方
+  * 也就是app.js文件中，所以想要在app.js文件中获取到 判断updateBlogData是否更新成功后 返回的对象，就需要return updateBlogDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
+  * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
+  * 
+  * 删除博客 对接MySQL：
+  * 传入要删除的博客id和登录用户的名称，删除此用户博客里的内容
+  * 在controllers目录下blog.js文件的 对应删除博客数据方法中 定义sql语句，并调用execSQL方法执行sql语句，并return execSQL(sql).then(deleteResult)，拿到deleteResult对象返回的在数据库中更新的行数(affectedRows)，更新成功则大于0，在进行判断大于0返回true，否则false
+  * 在routes目录下的blogs.js文件中的 删除博客路由中 获取到返回的promise对象(deleteBlogDataPromise),deleteBlogDataPromise.then()方法中获取到 博客删除后返回的布尔值(deleteBlogData)
+  * 将判断deleteBlogData是否更新成功的逻辑放入到deleteBlogDataPromise.then()中执行，会返回SuccessModel对象，去到最终使用到这个对象的地方，也就是handleBlogRoute方法（处理博客相关的路由方法）使用的地方
+  * 也就是app.js文件中，所以想要在app.js文件中获取到 判断deleteBlogData是否删除成功后 返回的对象，就需要return deleteBlogDataPrmise.then(...)的结果，所以app.js中的handleBlogRoute返回的结果就是SuccessModel的promise对象
   * 然后获取handleBlogRoute返回的promise对象，并用.then()拿到blogData(也就是返回的SuccessModel对象)
 */

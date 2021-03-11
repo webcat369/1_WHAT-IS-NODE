@@ -63,7 +63,7 @@ const serverHandler = (req, res) => {
     const blogDataPromise = handleBlogRoute(req, res)
     if (blogDataPromise) {
       blogDataPromise.then(blogData => {
-        // console.log('blogData',blogData)
+        console.log('blogData',blogData)
         res.end(
           JSON.stringify(blogData)
         )
