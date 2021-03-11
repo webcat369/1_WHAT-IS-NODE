@@ -110,6 +110,8 @@
   * 在mysql-demo目录内新建index.js文件，并进入mysql-demo目录终端初始化Demo：npm init -y 生成package.json文件
   * 并安装mysql:npm install mysql
   * 接着在index.js文件中执行下面五个步骤：->引入mysql->创建连接对象->开始连接->执行 sql语句->关闭连接；
-  * 
-  * 
+  
+  14.封装执行sql语句的工具函数
+  * 在src目录下新建db目录下mysql.js创建MySQL相关的数据库的文件
+  * 在博客项目目录下安装MySQL：npm install mysql
 */
