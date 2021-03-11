@@ -53,7 +53,7 @@
   开启服务：net start mysql
 　关闭服务：net stop mysql
   登录mysql：mysql -u root -p
-　Enter PassWord：(密码)-> root
+　Enter PassWord：(密码)-> 123456
 
   11.使用MySQL增，查
     -- 要使用哪个数据库
