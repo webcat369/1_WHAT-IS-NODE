@@ -114,4 +114,6 @@
   14.封装执行sql语句的工具函数
   * 在src目录下新建db目录下mysql.js创建MySQL相关的数据库的文件
   * 在博客项目目录下安装MySQL：npm install mysql
+  * 在mysql.js文件中执行下面五个步骤：->引入mysql->创建连接对象->开始连接->封装执行 sql语句的方法->导出处理sql语句的方法；
+  * 利用promise优化封装的处理sql语句的execSQL方法，避免如果需要拿到execSQL回调函数中的结果result去做更多的事情，就可能出现回调地狱，不利于代码读取和后期维护
 */

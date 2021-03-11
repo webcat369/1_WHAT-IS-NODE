@@ -6,7 +6,7 @@ const {
   updateBlog,
   deleteBlog } = require('../controllers/blog')
 
-//引入处理MySQL文件
+//引入处理sql语句的文件
 const { execSQL } = require('../db/mysql')
 
 //处理博客相关的路由处理
